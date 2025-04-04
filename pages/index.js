@@ -1,11 +1,13 @@
 import Carousel from "@/components/basic/Carousel";
 import Navbar from "@/components/basic/Navbar";
 import animeList from "../data/anime-terbaru.json";
+import navList from "../data/navlinks.json";
 import Breadcrumb from "@/components/basic/Breadcrumb";
 import Section from "@/components/container/Section";
 import Content from "@/components/container/Content";
 import MetaTitle from "@/components/basic/MetaTitle";
 import AnimeCard from "@/components/basic/AnimeCard";
+import Footer from "@/components/basic/Footer";
 
 export default function Home() {
   const navLinks = [
@@ -32,6 +34,7 @@ export default function Home() {
           </Content>
         </Section>
       </main>
+      <Footer siteName="Nanana" navLinks={navList} />
     </>
   );
 }
