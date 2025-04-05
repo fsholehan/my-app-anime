@@ -1,5 +1,4 @@
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
 import convertIdToTitle from "@/utils/convertIdToTitle";
 import Link from "next/link";
 
@@ -8,37 +7,32 @@ export default function Breadcrumb({ currentPage }) {
   const pages = [];
 
   if (pathname) {
-    pathname.split("/").forEach((item, index) => {
-      if (item) {
-        const href =
-          "/" +
-          pathname
-            .split("/")
-            .slice(1, index + 2)
-            .join("/");
+    const segments = pathname.split("/").filter(Boolean); // hapus empty string
+    segments.forEach((item, index) => {
+      const isLast = index === segments.length - 1;
+      const href = "/" + segments.slice(0, index + 1).join("/");
 
-        pages.push({
-          title: convertIdToTitle(item),
-          href,
-        });
-      }
+      pages.push({
+        title: convertIdToTitle(item),
+        href: isLast ? null : href, // terakhir tidak jadi link
+      });
     });
   }
 
-  // Menangani currentPage jika ada
+  // Override last page jika currentPage disediakan
   if (currentPage) {
     if (currentPage.action === "replace") {
-      pages.pop();
+      pages.pop(); // hapus terakhir
     }
     pages.push({
       title: currentPage.title,
-      href: currentPage.href,
+      href: currentPage.href || null,
     });
   }
 
   return (
     <header
-      className="flex p-3 border  rounded-lg  bg-zinc-900 border-zinc-800"
+      className="flex p-3 border rounded-lg bg-zinc-900 border-zinc-800"
       aria-label="Breadcrumb"
     >
       <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -61,7 +55,7 @@ export default function Breadcrumb({ currentPage }) {
           </Link>
         </li>
 
-        {/* Breadcrumb Items */}
+        {/* Dynamic Breadcrumbs */}
         {pages.map((page, index) => (
           <li
             key={index}
@@ -83,20 +77,17 @@ export default function Breadcrumb({ currentPage }) {
                   d="m1 9 4-4-4-4"
                 />
               </svg>
-              {index === pages.length - 1 ? (
-                <span
-                  data-href={page.href}
-                  className="ms-1 text-sm font-medium text-zinc-200 md:ms-2 line-clamp-1"
-                >
-                  {page.title}
-                </span>
-              ) : (
+              {page.href ? (
                 <Link
                   href={page.href}
                   className="ms-1 text-sm font-medium hover:text-amber-600 md:ms-2 text-zinc-200"
                 >
                   {page.title}
                 </Link>
+              ) : (
+                <span className="ms-1 text-sm font-medium text-zinc-200 md:ms-2 line-clamp-1">
+                  {page.title}
+                </span>
               )}
             </div>
           </li>

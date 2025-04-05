@@ -5,7 +5,8 @@ import navList from "@/data/navlinks.json";
 export default function Layout({ children }) {
   const navLinks = [
     { title: "Home", href: "/" },
-    { title: "Daftar Anime", href: "/daftar-anime" },
+    { title: "Daftar Anime", href: "/anime" },
+    { title: "Daftar Genre", href: "/genre" },
   ];
 
   return (
