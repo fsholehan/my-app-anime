@@ -5,18 +5,25 @@ import Link from "next/link";
 
 export default function Breadcrumb({ currentPage }) {
   const pathname = usePathname();
-  const router = useRouter();
   const pages = [];
 
-  // Membuat breadcrumb berdasarkan path
-  pathname.split("/").forEach((item) => {
-    if (item) {
-      pages.push({
-        title: convertIdToTitle(item),
-        href: `/${item}`,
-      });
-    }
-  });
+  if (pathname) {
+    pathname.split("/").forEach((item, index) => {
+      if (item) {
+        const href =
+          "/" +
+          pathname
+            .split("/")
+            .slice(1, index + 2)
+            .join("/");
+
+        pages.push({
+          title: convertIdToTitle(item),
+          href,
+        });
+      }
+    });
+  }
 
   // Menangani currentPage jika ada
   if (currentPage) {

@@ -7,8 +7,8 @@ export default function AnimeCard({ list }) {
     <div className="py-3 gap-4 grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
       {list.map((animeItem) => (
         <Link
-          key={animeItem.animeId || animeItem.batchId}
-          href="/"
+          key={animeItem.animeId}
+          href={animeItem.url}
           className="group relative xs:w-[140px] sm:w-[184px]"
         >
           <div className="relative overflow-hidden rounded-lg aspect-[2/3]">
