@@ -6,14 +6,16 @@ import Content from "@/components/container/Content";
 import Layout from "@/components/container/Layout";
 import Section from "@/components/container/Section";
 import AnimeCard from "@/components/basic/AnimeCard";
+import useCanonicalUrl from "@/hooks/useCanonicalUrl";
+import Head from "next/head";
 
 const Search = () => {
   const router = useRouter();
   const { q } = router.query;
   const [page, setPage] = useState(1);
-
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const canonicalUrl = useCanonicalUrl();
 
   useEffect(() => {
     if (!q) return;
@@ -41,6 +43,14 @@ const Search = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>{q}</title>
+        <meta
+          name="description"
+          content="Tonton episode terbaru anime sub Indo hanya di Animasu. Update setiap hari!"
+        />
+        {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      </Head>
       <Breadcrumb />
       <Section>
         <Content>
@@ -64,7 +74,12 @@ const Search = () => {
 
                 <button
                   onClick={handleNext}
-                  className="px-4 py-2 rounded bg-orange-600 text-white"
+                  disabled={searchResults?.length < 10}
+                  className={`px-4 py-2 rounded bg-orange-600 text-white ${
+                    searchResults?.length < 10
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
                 >
                   Next
                 </button>

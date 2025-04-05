@@ -3,34 +3,12 @@
     {
       "title": "Daftar Genre",
       "href": "/genres"
-    },
-    {
-      "title": "Jadwal Rilis",
-      "href": "/schedule"
-    },
-    {
-      "title": "Movies",
-      "href": "/movies"
-    },
-    {
-      "title": "Terpopuler",
-      "href": "/popular"
     }
   ],
   "_2": [
     {
-      "title": "Disclaimers",
-      "href": "/disclaimers"
-    },
-    {
-      "title": "Donasi",
-      "href": "https://saweria.co/wajik45",
-      "targetBlank": true
-    },
-    {
-      "title": "Terima Kasih",
-      "href": "https://saweria.co/wajik45",
-      "targetBlank": true
+      "title": "Disclaimer",
+      "href": "/disclaimer"
     }
   ]
 }

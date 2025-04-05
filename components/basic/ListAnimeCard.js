@@ -1,14 +1,27 @@
 // components/ListAnimeCard.js
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { MagnifyingGlassIcon as SearchIcon } from "@heroicons/react/24/solid";
 
 export default function ListAnimeCard({ list }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedTerm, setDebouncedTerm] = useState(searchTerm);
 
-  const filteredList = list.filter((item) =>
-    item.title.toLowerCase().includes(searchTerm)
-  );
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedTerm(searchTerm);
+    }, 300); // tunggu 300ms baru update
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+  const filteredList = useMemo(() => {
+    return list.filter((item) =>
+      item.title.toLowerCase().includes(debouncedTerm.toLowerCase())
+    );
+  }, [list, debouncedTerm]);
   return (
     <div className="w-full mx-auto">
       <div className="w-full">
@@ -37,7 +50,7 @@ export default function ListAnimeCard({ list }) {
         <ul className="anime-list w-full grid sm:grid-cols-2 gap-y-2 gap-x-4 list-disc pl-4">
           {filteredList.map((anime) => (
             <li key={anime.animeId}>
-              <Link href="/" className="anime0-item">
+              <Link href={anime.url} className="anime0-item">
                 {anime.title}
               </Link>
             </li>

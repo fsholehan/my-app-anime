@@ -5,10 +5,13 @@ import Content from "@/components/container/Content";
 import Layout from "@/components/container/Layout";
 import Section from "@/components/container/Section";
 import ListAnimeCard from "@/components/basic/ListAnimeCard";
+import useCanonicalUrl from "@/hooks/useCanonicalUrl";
+import Head from "next/head";
 
 const DaftarAnime = () => {
   const [listAnimeName, setListAnimeName] = useState([]);
   const [loading, setLoading] = useState(true);
+  const canonicalUrl = useCanonicalUrl();
 
   useEffect(() => {
     const fetchAnimeList = async () => {
@@ -30,6 +33,14 @@ const DaftarAnime = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>List Semua Anime</title>
+        <meta
+          name="description"
+          content="Tonton episode terbaru anime sub Indo hanya di Animasu. Update setiap hari!"
+        />
+        {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      </Head>
       <Breadcrumb />
       <Section>
         <Content>

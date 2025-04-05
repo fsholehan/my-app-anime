@@ -6,13 +6,15 @@ import Content from "@/components/container/Content";
 import Layout from "@/components/container/Layout";
 import Section from "@/components/container/Section";
 import VideoPlayer from "@/components/basic/VideoPlayer";
+import Head from "next/head";
+import useCanonicalUrl from "@/hooks/useCanonicalUrl";
 
 const StreamId = () => {
   const router = useRouter();
   const { streamId } = router.query;
-
   const [streamData, setStreamData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const canonicalUrl = useCanonicalUrl();
 
   useEffect(() => {
     if (!streamId) return;
@@ -39,6 +41,14 @@ const StreamId = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>{streamData?.title}</title>
+        <meta
+          name="description"
+          content="Tonton episode terbaru anime sub Indo hanya di Animasu. Update setiap hari!"
+        />
+        {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      </Head>
       <Breadcrumb />
       <Section>
         <Content>

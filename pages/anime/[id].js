@@ -7,12 +7,15 @@ import Section from "@/components/container/Section";
 import MetaTitle from "@/components/basic/MetaTitle";
 import { PlayIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import Head from "next/head";
+import useCanonicalUrl from "@/hooks/useCanonicalUrl";
 
 const AnimeId = () => {
   const router = useRouter();
   const { id } = router.query;
   const [anime, setAnime] = useState(null);
   const [loading, setLoading] = useState(true);
+  const canonicalUrl = useCanonicalUrl();
 
   const getEpisodeNumber = (text) => {
     const match = text.match(/\d+/);
@@ -42,6 +45,14 @@ const AnimeId = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>{anime?.title}</title>
+        <meta
+          name="description"
+          content="Tonton episode terbaru anime sub Indo hanya di Animasu. Update setiap hari!"
+        />
+        {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      </Head>
       <Breadcrumb />
       <Section>
         <Content>
@@ -64,7 +75,7 @@ const AnimeId = () => {
                 {anime.title}
               </h1>
               <Link
-                href="/"
+                href={anime?.episodes[anime.episodes.length - 1]?.episodeUrl}
                 className="max-w-min flex gap-1 text-white bg-amber-700 hover:bg-amber-800 focus:outline-none focus:ring-4 focus:ring-amber-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800"
               >
                 <PlayIcon className="h-4" />

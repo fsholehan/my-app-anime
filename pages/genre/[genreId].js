@@ -9,6 +9,8 @@ import Section from "@/components/container/Section";
 import Content from "@/components/container/Content";
 import MetaTitle from "@/components/basic/MetaTitle";
 import AnimeCard from "@/components/basic/AnimeCard";
+import Head from "next/head";
+import useCanonicalUrl from "@/hooks/useCanonicalUrl";
 
 const GenrePage = () => {
   const router = useRouter();
@@ -17,6 +19,7 @@ const GenrePage = () => {
   const [animeList, setAnimeList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const canonicalUrl = useCanonicalUrl();
 
   useEffect(() => {
     if (!genreId) return;
@@ -45,6 +48,14 @@ const GenrePage = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>Anime by Genre</title>
+        <meta
+          name="description"
+          content="Tonton episode terbaru anime sub Indo hanya di Animasu. Update setiap hari!"
+        />
+        {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      </Head>
       <Breadcrumb />
       <Section>
         <Content>
@@ -65,8 +76,13 @@ const GenrePage = () => {
                   Previous
                 </button>
                 <button
+                  disabled={animeList?.length < 10}
                   onClick={() => handlePageChange(1)}
-                  className="px-4 py-2 rounded bg-orange-600 text-white"
+                  className={`px-4 py-2 rounded bg-orange-600 text-white ${
+                    animeList?.length < 10
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
                 >
                   Next
                 </button>

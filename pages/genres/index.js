@@ -5,10 +5,13 @@ import MetaTitle from "@/components/basic/MetaTitle";
 import Content from "@/components/container/Content";
 import Layout from "@/components/container/Layout";
 import Section from "@/components/container/Section";
+import Head from "next/head";
+import useCanonicalUrl from "@/hooks/useCanonicalUrl";
 
 const Genres = () => {
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(true);
+  const canonicalUrl = useCanonicalUrl();
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -28,6 +31,14 @@ const Genres = () => {
 
   return (
     <Layout>
+      <Head>
+        <title>Genre Anime</title>
+        <meta
+          name="description"
+          content="Tonton episode terbaru anime sub Indo hanya di Animasu. Update setiap hari!"
+        />
+        {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      </Head>
       <Breadcrumb />
       <Section>
         <Content>
