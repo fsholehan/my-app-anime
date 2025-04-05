@@ -4,12 +4,12 @@ import Image from "next/image";
 
 export default function AnimeCard({ list }) {
   return (
-    <div className="py-3 gap-4 grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+    <div className="py-3 gap-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
       {list.map((animeItem) => (
         <Link
           key={animeItem.animeId}
           href={animeItem.url}
-          className="group relative xs:w-[140px] sm:w-[184px]"
+          className="group relative"
         >
           <div className="relative overflow-hidden rounded-lg aspect-[2/3]">
             <Image
