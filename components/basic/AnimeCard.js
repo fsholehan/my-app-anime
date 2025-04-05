@@ -5,17 +5,13 @@ import Image from "next/image";
 export default function AnimeCard({ list }) {
   return (
     <div className="py-3 gap-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-      {list.map((animeItem) => (
-        <Link
-          key={animeItem.animeId}
-          href={animeItem.url}
-          className="group relative"
-        >
+      {list.map((animeItem, index) => (
+        <Link key={index} href={animeItem.url} className="group relative">
           <div className="relative overflow-hidden rounded-lg aspect-[2/3]">
             <Image
               fill
               className="object-cover rounded-lg anime1-item-img"
-              src={animeItem.imgUrl}
+              src={animeItem.imgUrl || animeItem.imgurl}
               alt={animeItem.title}
               loading="lazy"
             />

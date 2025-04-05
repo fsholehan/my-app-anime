@@ -22,8 +22,8 @@ export default function Footer({ navLinks, siteName }) {
 
           <div className="grid grid-cols-2 gap-16">
             <ul className="flex flex-col gap-4 text-zinc-400 font-medium">
-              {navLinks._1.map((link) => (
-                <li key={link.href}>
+              {navLinks._1.map((link, index) => (
+                <li key={index}>
                   <Link href={link.href} className="hover:underline max-w-min">
                     {link.title}
                   </Link>
@@ -32,8 +32,8 @@ export default function Footer({ navLinks, siteName }) {
             </ul>
 
             <ul className="flex flex-col gap-4 text-zinc-400 font-medium">
-              {navLinks._2.map((link) => (
-                <li key={link.href}>
+              {navLinks._2.map((link, index) => (
+                <li key={index}>
                   <a
                     href={link.href}
                     target={link.targetBlank ? "_blank" : "_self"}

@@ -1,23 +1,80 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Breadcrumb from "@/components/basic/Breadcrumb";
 import MetaTitle from "@/components/basic/MetaTitle";
 import Content from "@/components/container/Content";
 import Layout from "@/components/container/Layout";
 import Section from "@/components/container/Section";
-import searchAnime from "@/data/search-anime.json";
-import { useRouter } from "next/router";
 import AnimeCard from "@/components/basic/AnimeCard";
 
 const Search = () => {
   const router = useRouter();
   const { q } = router.query;
+  const [page, setPage] = useState(1);
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!q) return;
+
+    const fetchSearch = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `https://animasu.nakanime.my.id/cari-anime/${q}/${page}`
+        );
+        const data = await res.json();
+        setSearchResults(data);
+      } catch (err) {
+        console.error("Gagal fetch data pencarian:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSearch();
+  }, [q, page]);
+
+  const handleNext = () => setPage((p) => p + 1);
+  const handlePrev = () => setPage((p) => (p > 1 ? p - 1 : 1));
+
   return (
     <Layout>
       <Breadcrumb />
       <Section>
         <Content>
           <MetaTitle title={`Hasil pencarian : ${q}`} />
-          <AnimeCard list={searchAnime} />
+          {loading ? (
+            <p>Loading...</p>
+          ) : searchResults.length > 0 ? (
+            <>
+              <AnimeCard list={searchResults} />
+
+              <div className="flex justify-center items-center gap-4 mt-6">
+                <button
+                  onClick={handlePrev}
+                  disabled={page === 1}
+                  className={`px-4 py-2 rounded bg-zinc-800 text-white ${
+                    page === 1 ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  Prev
+                </button>
+
+                <button
+                  onClick={handleNext}
+                  className="px-4 py-2 rounded bg-orange-600 text-white"
+                >
+                  Next
+                </button>
+              </div>
+            </>
+          ) : (
+            <p className="text-center text-zinc-400">
+              Tidak ada hasil ditemukan.
+            </p>
+          )}
         </Content>
       </Section>
     </Layout>

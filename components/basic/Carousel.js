@@ -28,7 +28,7 @@ const Carousel = ({ list }) => {
       <div className="relative h-56 overflow-hidden rounded-md md:h-96">
         {list.map((anime, index) => (
           <div
-            key={anime.animeId}
+            key={index}
             className={`${
               index === currentIndex ? "block" : "hidden"
             } carousel-item`}
@@ -51,7 +51,7 @@ const Carousel = ({ list }) => {
                   </span>
                 </p>*/}
                 <h1 className="carousel-item-title">{anime.title}</h1>
-                <Link href="/" className="carousel-item-btn">
+                <Link href={anime.url} className="carousel-item-btn">
                   <PlayIcon className="w-5 h-5" />
                   <span className="text-xs">Tonton Kuy</span>
                 </Link>
