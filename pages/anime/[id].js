@@ -3,10 +3,16 @@ import Content from "@/components/container/Content";
 import Layout from "@/components/container/Layout";
 import Section from "@/components/container/Section";
 import { PlayIcon } from "@heroicons/react/24/solid";
+import result from "@/data/anime-info.json";
 import Link from "next/link";
 import React from "react";
+import MetaTitle from "@/components/basic/MetaTitle";
 
 const AnimeId = () => {
+  function getEpisodeNumber(text) {
+    const match = text.match(/\d+/);
+    return match ? parseInt(match[0], 10) : null;
+  }
   return (
     <Layout>
       <Breadcrumb />
@@ -14,7 +20,7 @@ const AnimeId = () => {
         <Content>
           <div className="relative">
             <img
-              src="https://i2.wp.com/v9.animasu.cc/wp-content/uploads/2025/02/146061.jpg"
+              src={result.imgUrl}
               className="w-full aspect-[16/6] object-cover rounded-t-md"
               alt=""
             />
@@ -22,13 +28,13 @@ const AnimeId = () => {
           </div>
           <div className="flex flex-col sm:flex-row justify-center items-center sm:justify-start gap-4 sm:items-end xs:-mt-[100px] sm:-mt-[150px] relative p-4">
             <img
-              src="https://i2.wp.com/v9.animasu.cc/wp-content/uploads/2025/02/146061.jpg"
+              src={result.imgUrl}
               alt=""
               className="w-[150px] sm:w-[170px] md:w-[200px] rounded-md aspect-[3/4]"
             />
             <div className="flex flex-col gap-3 items-center text-center sm:items-start sm:text-left">
               <h1 className="text-xl md:text-2xl font-extrabold line-clamp-2">
-                Wind Breaker Season 2
+                {result.title}
               </h1>
               {/* <p className="flex">
                     <span className="flex gap-1 items-center">
@@ -46,6 +52,37 @@ const AnimeId = () => {
                 Tonton
               </Link>
             </div>
+          </div>
+          <div>
+            <p className="text-zinc-400">{result.description}</p>
+          </div>
+          <MetaTitle title="Detail Anime" />
+          <div className="grid grid-cols-2 gap-2 border-l border-l-zinc-400 dark:border-l-zinc-600 px-3 h-max py-4">
+            <span>Status</span>
+            <span className="line-clamp-2">: {result.status}</span>
+            <span>Studio</span>
+            <span className="line-clamp-2">: {result.studio}</span>
+            <span>Type</span>
+            <span className="line-clamp-2">: {result.type}</span>
+            <span>Released</span>
+            <span className="line-clamp-2">: {result.released}</span>
+            <span>Duration</span>
+            <span className="line-clamp-2">: {result.duration}</span>
+          </div>
+          <MetaTitle title="Daftar Episode" />
+          <div className="flex flex-col gap-4 max-h-[500px] overflow-x-auto">
+            {result.episodes.map((episode, i) => (
+              <Link
+                key={i}
+                href={episode.episodeUrl}
+                className="flex gap-4 items-center hover:bg-zinc-700 p-2 rounded-md"
+              >
+                <div className="py-2 px-4 bg-sky-600 rounded-sm text-white">
+                  {getEpisodeNumber(episode.episodeTitle)}
+                </div>
+                <div>{episode.episodeTitle}</div>
+              </Link>
+            ))}
           </div>
         </Content>
       </Section>
