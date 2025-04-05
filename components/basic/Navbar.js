@@ -5,11 +5,20 @@ import {
   MagnifyingGlassIcon as SearchIcon,
   Bars3Icon,
 } from "@heroicons/react/24/solid";
+import { useRouter } from "next/router";
 
 const Navbar = ({ navLinks, siteName }) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!query.trim()) return;
+    router.push(`/search?q=${encodeURIComponent(query)}`);
+  };
 
   return (
     <nav className=" bg-zinc-900 fixed w-full z-50 top-0 start-0 border-b border-zinc-800 px-2 mb-10">
@@ -58,11 +67,15 @@ const Navbar = ({ navLinks, siteName }) => {
       {searchOpen && (
         <div className="z-10 w-full">
           <ul className="p-4 bg-zinc-900 text-sm -translate-y-2">
-            <form className="max-w-md mx-auto text-zinc-700 flex rounded-md overflow-hidden">
+            <form
+              onSubmit={handleSubmit}
+              className="max-w-md mx-auto text-zinc-700 flex rounded-md overflow-hidden"
+            >
               <input
                 type="search"
                 className="w-full p-2 text-sm  border  bg-zinc-800 border-zinc-600 text-white rounded-tl-md rounded-bl-md"
                 placeholder="Cari Anime.."
+                onChange={(e) => setQuery(e.target.value)}
               />
               <button
                 type="submit"
