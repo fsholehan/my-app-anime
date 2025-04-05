@@ -14,7 +14,7 @@ export default function Home() {
       <Breadcrumb />
       <Section>
         <Content>
-          <MetaTitle title="Episode Terbaru" href="/list-episode" />
+          <MetaTitle title="Episode Terbaru" href="/anime-terbaru" />
           <AnimeCard list={animeList} />
         </Content>
       </Section>
