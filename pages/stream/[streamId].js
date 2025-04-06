@@ -14,13 +14,14 @@ const StreamId = () => {
   const router = useRouter();
   const { streamId } = router.query;
   const [streamData, setStreamData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const canonicalUrl = useCanonicalUrl();
 
   useEffect(() => {
-    if (!streamId) return;
+    if (!router.isReady || !streamId) return;
 
     const fetchStreamData = async () => {
+      setLoading(true);
       try {
         const res = await fetch(
           `https://animasu.nakanime.my.id/stream/${streamId}`
@@ -35,6 +36,12 @@ const StreamId = () => {
     };
 
     fetchStreamData();
+  }, [router.isReady, streamId]);
+
+  useEffect(() => {
+    if (streamId) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, [streamId]);
 
   if (loading) return <Layout>Loading...</Layout>;
