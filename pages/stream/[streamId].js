@@ -8,6 +8,7 @@ import Section from "@/components/container/Section";
 import VideoPlayer from "@/components/basic/VideoPlayer";
 import Head from "next/head";
 import useCanonicalUrl from "@/hooks/useCanonicalUrl";
+import Link from "next/link";
 
 const StreamId = () => {
   const router = useRouter();
@@ -57,6 +58,34 @@ const StreamId = () => {
             defaultStreamUrl={streamData?.streamUrl[0]?.streamUrl}
             streamUrlList={streamData?.streamUrl}
           />
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              href={`/stream/${streamData?.episodeNav.prev}`}
+              className={`navigation-episode-item ${
+                !streamData?.episodeNav.prev
+                  ? "disabled pointer-events-none opacity-50"
+                  : ""
+              }`}
+            >
+              {"<- "} Prev
+            </Link>
+            <Link
+              href={streamData?.episodeNav.info}
+              className="navigation-episode-item"
+            >
+              All Eps
+            </Link>
+            <Link
+              href={`/stream/${streamData?.episodeNav.next}`}
+              className={`navigation-episode-item ${
+                !streamData?.episodeNav.next
+                  ? "disabled pointer-events-none opacity-50"
+                  : ""
+              }`}
+            >
+              Next {" ->"}
+            </Link>
+          </div>
         </Content>
       </Section>
     </Layout>
